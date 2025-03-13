@@ -2,10 +2,24 @@ import express from 'express'
 import db from './db.js'
 import moment from 'moment'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 const router = express.Router()
 
-router.get('/', async (req, res) => {
+const authenticateSession = (req, res, next) => {
+  const accessToken = req.cookies.accessToken
+  if (!accessToken) return res.sendStatus(401)
+
+  jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err) => {
+    if (err) {
+      res.status(403).json({ message: 'Invalid token' })
+    } else {
+      next()
+    }
+  })
+}
+
+router.get('/', authenticateSession, async (req, res) => {
   const table = req.baseUrl.slice(1)
 
   db.query(`SELECT * FROM ??`, table, (err, result) => {

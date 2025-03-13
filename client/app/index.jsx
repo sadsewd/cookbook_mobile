@@ -1,29 +1,71 @@
 import { Link, Redirect } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
+import { Button, StyleSheet, Text, View } from 'react-native'
 import { useGlobalContext } from '../context/GlobalProvider'
 import axios from 'axios'
-import { useEffect } from 'react'
 
 export default function App() {
   const { isLogged } = useGlobalContext()
 
   if (isLogged) return <Redirect href='/recipes' />
 
-  useEffect(() => {
+  const login = () => {
+    console.log('login')
     axios
-      .post('http://localhost:3001/auth/login', {
+      .post('auth/login', {
         email: 'tt',
-        password: 'Parole123',
+        password: 'Parole1',
       })
-      .then((res) => console.log(res))
-  }, [])
+      .then((res) => {
+        console.log(res)
+      })
+  }
+
+  const logout = () => {
+    console.log('logout')
+    axios
+      .post('auth/logout')
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const refresh = () => {
+    console.log('refresh')
+    axios
+      .post('auth/refresh')
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const getResource = () => {
+    console.log('getResource')
+    axios
+      .get('users')
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   return (
     <>
       <StatusBar style='auto' />
       <View style={styles.container}>
         <View style={styles.buttonsCon}>
+          <Button onPress={login} title='login' />
+          <Button onPress={logout} title='logout' />
+          <Button onPress={refresh} title='refresh' />
+          <Button onPress={getResource} title='getResource' />
           <Link href='/login' style={styles.buttonCon}>
             <Text>Login</Text>
           </Link>
