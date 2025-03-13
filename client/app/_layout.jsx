@@ -1,15 +1,15 @@
 import { Stack } from 'expo-router'
-import React from 'react'
+import GlobalProvider from '../context/GlobalProvider'
 
 const RootLayout = () => {
   return (
-    <Stack>
-      <Stack.Screen name='Landing' options={{}} />
-      <Stack.Screen name='Login' options={{}} />
-      <Stack.Screen name='Register' options={{}} />
-      <Stack.Screen name='Recipes' options={{}} />
-      <Stack.Screen name='Profile' options={{}} />
-    </Stack>
+    <GlobalProvider>
+      <Stack>
+        <Stack.Screen name='(tabs)' />
+        <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+        <Stack.Screen name='index' options={{ headerShown: false }} />
+      </Stack>
+    </GlobalProvider>
   )
 }
 
