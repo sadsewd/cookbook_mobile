@@ -10,7 +10,7 @@ const login = () => {
 
   const handleSubmit = () => {
     setIsLogged(true)
-    router.replace('/recipes')
+    router.replace('recipes')
   }
 
   return (

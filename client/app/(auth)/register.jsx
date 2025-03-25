@@ -13,9 +13,9 @@ const register = () => {
   const [Error, setError] = useState()
   const { isLogged, setIsLogged, setUser } = useGlobalContext()
 
-  const validEmail = new RegExp('^[w-.]+@([w-]+.)+[w-]{2,4}$')
+  const validEmail = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')
   const validPassword = new RegExp(
-    '^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,}$'
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
   )
 
   useEffect(() => {

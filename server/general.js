@@ -52,9 +52,9 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   const table = req.baseUrl.slice(1)
 
-  // if (req.body.password) {
-  //   req.body.password = bcrypt.hashSync(req.body.password, 10)
-  // }
+  if (req.body.password) {
+    req.body.password = bcrypt.hashSync(req.body.password, 10)
+  }
 
   const columns = Object.keys(req.body)
   const values = Object.values(req.body)
