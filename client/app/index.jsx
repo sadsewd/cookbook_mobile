@@ -11,14 +11,18 @@ export default function App() {
 
   const login = () => {
     console.log('login')
-    axios
-      .post('auth/login', {
-        email: 'tt',
-        password: 'Parole1',
-      })
-      .then((res) => {
-        console.log(res)
-      })
+    try {
+      axios
+        .post('auth/login', {
+          email: 'tt',
+          password: 'Parole1',
+        })
+        .then((res) => {
+          console.log(res)
+        })
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const logout = () => {
