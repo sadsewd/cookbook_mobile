@@ -47,7 +47,7 @@ router.post('/login', async (req, res) => {
                 httpOnly: true,
                 sameSite: 'strict',
               })
-              res.sendStatus(200)
+              res.status(200).send({ id: user.users_id })
             }
           }
         )
