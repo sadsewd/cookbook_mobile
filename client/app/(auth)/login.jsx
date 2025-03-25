@@ -1,16 +1,58 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { View, StyleSheet, TextInput, Text, Button } from 'react-native'
 import { useGlobalContext } from '../../context/GlobalProvider'
 import { router } from 'expo-router'
+import { validEmail } from './regex.js'
+import axios from 'axios'
 
 const login = () => {
-  const [text, onChangeText] = useState('')
-  const [number, onChangeNumber] = useState('')
-  const { setIsLogged } = useGlobalContext()
+  const [email, onChangeEmail] = useState('')
+  const [password, onChangePassword] = useState('')
+  const { isLogged, setIsLogged, setUser } = useGlobalContext()
+  const [Error, setError] = useState()
 
-  const handleSubmit = () => {
-    setIsLogged(true)
-    router.replace('recipes')
+  useEffect(() => {
+    if (isLogged) router.replace('recipes')
+    console.log(isLogged)
+  }, [isLogged])
+
+  const handleSubmit = async () => {
+    let postErr = false
+    if (email && password) {
+      if (validEmail.test(email)) {
+        try {
+          const res = await axios.post('auth/login', {
+            email: email,
+            password: password,
+          })
+          if (!postErr && res.status == 200) {
+            setUser({ id: res.data.id })
+            setIsLogged(true)
+            router.replace('recipes')
+          }
+        } catch (error) {
+          console.log(error)
+          postErr = true
+          if (error.response.status == 403) {
+            setError('Incorrect email and/or password!')
+          } else {
+            setError('Servera kļūda!')
+          }
+        }
+      } else {
+        setError('Bad email address!')
+      }
+    } else {
+      setError('Unfilled form fields!')
+    }
+  }
+
+  const errorMessage = () => {
+    return (
+      <View>
+        <Text>{Error}</Text>
+      </View>
+    )
   }
 
   return (
@@ -19,17 +61,19 @@ const login = () => {
         <Text style={{ fontWeight: 'bold', fontSize: 25 }}>Login</Text>
         <TextInput
           style={styles.input}
-          onChangeText={onChangeText}
-          value={text}
+          onChangeText={onChangeEmail}
+          value={email}
           placeholder='E-mail'
         />
         <TextInput
           style={styles.input}
-          onChangeText={onChangeNumber}
-          value={number}
+          onChangeText={onChangePassword}
+          value={password}
           placeholder='Password'
+          secureTextEntry={true}
         />
         <Button onPress={handleSubmit} title='Log in' color='#841584' />
+        {Error ? errorMessage() : <></>}
       </View>
     </View>
   )

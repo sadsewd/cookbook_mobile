@@ -1,24 +1,28 @@
-import { Link, Redirect } from 'expo-router'
+import { Link, router } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { Button, StyleSheet, Text, View } from 'react-native'
 import { useGlobalContext } from '../context/GlobalProvider'
 import axios from 'axios'
+import { useEffect } from 'react'
 
 export default function App() {
-  const { isLogged } = useGlobalContext()
+  const { isLogged, setIsLogged } = useGlobalContext()
 
-  if (isLogged) return <Redirect href='/recipes' />
+  useEffect(() => {
+    if (isLogged) router.replace('recipes')
+  }, [isLogged])
 
   const login = () => {
     console.log('login')
     try {
       axios
         .post('auth/login', {
-          email: 'tt',
-          password: 'Parole1',
+          email: 'test@test.com',
+          password: 'Test123$%',
         })
         .then((res) => {
           console.log(res)
+          setIsLogged(true)
         })
     } catch (err) {
       console.log(err)

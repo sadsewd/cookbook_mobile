@@ -1,8 +1,9 @@
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import { Redirect, router } from 'expo-router'
+import { router } from 'expo-router'
 import { useGlobalContext } from '../../context/GlobalProvider'
+import { validEmail, validPassword } from './regex.js'
 
 const register = () => {
   const [email, onChangeEmail] = useState('')
@@ -13,13 +14,8 @@ const register = () => {
   const [Error, setError] = useState()
   const { isLogged, setIsLogged, setUser } = useGlobalContext()
 
-  const validEmail = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')
-  const validPassword = new RegExp(
-    '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
-  )
-
   useEffect(() => {
-    if (isLogged) return <Redirect href='recipes' />
+    if (isLogged) router.replace('recipes')
   }, [])
 
   const handleLogin = async () => {
@@ -38,7 +34,7 @@ const register = () => {
                 setIsLogged(true)
                 router.replace('recipes')
               }
-            } catch (error) {
+            } catch (err) {
               postErr = true
               setError('Servera kļūda!')
             }
@@ -95,7 +91,7 @@ const register = () => {
           title='Register'
           color='#841584'
         />
-        {Error ? errorMessage() : ''}
+        {Error ? errorMessage() : <></>}
       </View>
     </View>
   )
