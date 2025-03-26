@@ -1,24 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { View, StyleSheet, TextInput, Text, Button } from 'react-native'
-import { useGlobalContext } from '../../context/GlobalProvider'
 import { router } from 'expo-router'
-import { validEmail } from './regex.js'
-import axios from 'axios'
+import { validEmail } from '../../regex/regex'
 import { useTheme } from '@react-navigation/native'
 import ErrorMessage from '../../components/Error'
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const login = () => {
   const { colors } = useTheme()
-
   const [email, onChangeEmail] = useState('')
   const [password, onChangePassword] = useState('')
-  const { isLogged, setIsLogged, setUser } = useGlobalContext()
   const [Error, setError] = useState()
 
-  useEffect(() => {
-    if (isLogged) router.replace('recipes')
-    console.log(isLogged)
-  }, [isLogged])
+  const setUser = async (id) => {
+    try {
+      await AsyncStorage.setItem('user', JSON.stringify(id))
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const handleSubmit = async () => {
     let postErr = false
@@ -31,7 +32,6 @@ const login = () => {
           })
           if (!postErr && res.status == 200) {
             setUser({ id: res.data.id })
-            setIsLogged(true)
             router.replace('recipes')
           }
         } catch (error) {

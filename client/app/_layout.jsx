@@ -1,16 +1,16 @@
 import { Stack } from 'expo-router'
-import GlobalProvider from '../context/GlobalProvider'
-import { StyleSheet } from 'react-native'
 import { useEffect, useState } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ThemeProvider } from '@react-navigation/native'
 import { Dark, Light } from '../themes/themes'
+import GlobalProvider from '../context/GlobalProvider'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 const RootLayout = () => {
   const [darkModeBG, setDarkModeBG] = useState(true)
 
   useEffect(() => {
     retrieveData()
-  }, [])
+  })
 
   retrieveData = async () => {
     try {

@@ -12,23 +12,6 @@ const GlobalProvider = ({ children }) => {
 
   axios.defaults.baseURL = 'http://localhost:3001'
   axios.defaults.withCredentials = true
-  // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-
-  useEffect(() => {
-    // axios
-    //   .post('auth/login', {
-    //     email: 'tt',
-    //     password: 'Parole1',
-    //   })
-    //   .then((res) => {
-    //     console.log(res)
-    //     setInterval(() => {
-    //       axios.post('auth/refresh').then((res) => {
-    //         console.log(res)
-    //       })
-    //     }, 1000 * 10)
-    //   })
-  }, [])
 
   return (
     <GlobalContext.Provider

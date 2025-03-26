@@ -1,18 +1,13 @@
-import { router } from 'expo-router'
+import { Redirect, router } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { Button, StyleSheet, Text, View } from 'react-native'
-import { useGlobalContext } from '../context/GlobalProvider'
-import axios from 'axios'
-import { useEffect } from 'react'
 import { useTheme } from '@react-navigation/native'
+import isUser from '../hooks/isUser'
 
 export default function App() {
-  const { isLogged } = useGlobalContext()
   const { colors } = useTheme()
 
-  useEffect(() => {
-    if (isLogged) router.replace('recipes')
-  }, [isLogged])
+  if (isUser()) return <Redirect href='/recipes' />
 
   const styles = StyleSheet.create({
     heading: {

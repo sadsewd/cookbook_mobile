@@ -1,22 +1,25 @@
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
-import axios from 'axios'
+import { useState } from 'react'
 import { router } from 'expo-router'
-import { useGlobalContext } from '../../context/GlobalProvider'
-import { validEmail, validPassword } from './regex.js'
+import { validEmail, validPassword } from '../../regex/regex'
 import { useTheme } from '@react-navigation/native'
+import axios from 'axios'
 import ErrorMessage from '../../components/Error'
 
 const register = () => {
   const { colors } = useTheme()
-
   const [email, onChangeEmail] = useState('')
   const [password, onChangePassword] = useState('')
   const [repPassword, onChangeRepPassword] = useState('')
   const [Error, setError] = useState()
-  const { isLogged, setIsLogged, setUser } = useGlobalContext()
 
-  if (isLogged) router.replace('recipes')
+  const setUser = async (id) => {
+    try {
+      await AsyncStorage.setItem('user', JSON.stringify(id))
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const handleLogin = async () => {
     let postErr = false

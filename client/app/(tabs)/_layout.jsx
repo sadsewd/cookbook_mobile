@@ -1,8 +1,10 @@
-import { View, Text, Image } from 'react-native'
-import React from 'react'
+import { View, Text } from 'react-native'
 import { Tabs, Redirect } from 'expo-router'
+import isUser from '../../hooks/isUser'
 
 const TabsLayout = () => {
+  if (!isUser()) return <Redirect href='/login' />
+
   const TabIcon = ({ color, name, focused }) => {
     return (
       <View
