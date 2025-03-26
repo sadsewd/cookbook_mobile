@@ -4,19 +4,19 @@ import axios from 'axios'
 import { router } from 'expo-router'
 import { useGlobalContext } from '../../context/GlobalProvider'
 import { validEmail, validPassword } from './regex.js'
+import { useTheme } from '@react-navigation/native'
+import ErrorMessage from '../../components/Error'
 
 const register = () => {
+  const { colors } = useTheme()
+
   const [email, onChangeEmail] = useState('')
   const [password, onChangePassword] = useState('')
   const [repPassword, onChangeRepPassword] = useState('')
-  //garbo but since there arent events this is works for now
-
   const [Error, setError] = useState()
   const { isLogged, setIsLogged, setUser } = useGlobalContext()
 
-  useEffect(() => {
-    if (isLogged) router.replace('recipes')
-  }, [])
+  if (isLogged) router.replace('recipes')
 
   const handleLogin = async () => {
     let postErr = false
@@ -54,72 +54,74 @@ const register = () => {
     }
   }
 
-  const errorMessage = () => {
-    return (
-      <View>
-        <Text>{Error}</Text>
-      </View>
-    )
-  }
+  const styles = StyleSheet.create({
+    input: {
+      height: 50,
+      borderWidth: 1,
+      padding: 10,
+      width: '100%',
+      borderRadius: 8,
+      borderColor: colors.inputBorder,
+      backgroundColor: colors.inputBG,
+      color: colors.text,
+    },
+    container: {
+      height: '100%',
+      width: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    content: {
+      height: '70%',
+      width: '90%',
+      justifyContent: 'center',
+      paddingHorizontal: '5%',
+      backgroundColor: colors.container,
+      borderRadius: 8,
+      gap: '10%',
+    },
+    form: {
+      height: '50%',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+  })
 
   return (
     <View style={styles.container}>
-      <View style={styles.inner}>
-        <Text style={{ fontWeight: 'bold', fontSize: 25 }}>Register</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeEmail}
-          value={email}
-          placeholder='E-mail'
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangePassword}
-          value={password}
-          placeholder='Password'
-          secureTextEntry={true}
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeRepPassword}
-          value={repPassword}
-          placeholder='Repeat password'
-          secureTextEntry={true}
-        />
-        <Button
-          onPress={() => handleLogin()} //why the damn parentheses
-          title='Register'
-          color='#841584'
-        />
-        {Error ? errorMessage() : <></>}
+      <View style={styles.content}>
+        <View style={styles.form}>
+          <Text
+            style={{ fontWeight: 'bold', fontSize: 36, color: colors.text }}
+          >
+            Register
+          </Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeEmail}
+            value={email}
+            placeholder='E-mail'
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangePassword}
+            value={password}
+            placeholder='Password'
+            secureTextEntry={true}
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeRepPassword}
+            value={repPassword}
+            placeholder='Repeat password'
+            secureTextEntry={true}
+          />
+        </View>
+        <Button onPress={handleLogin} title='Register' color={colors.button} />
+        {Error ? <ErrorMessage msg={Error} /> : <></>}
       </View>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  input: {
-    height: 50,
-    borderWidth: 1,
-    padding: 10,
-    width: '80%',
-    borderRadius: 8,
-  },
-  container: {
-    height: '100%',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  inner: {
-    height: '70%',
-    width: '80%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'wheat',
-    borderRadius: 8,
-    gap: '10%',
-  },
-})
 
 export default register

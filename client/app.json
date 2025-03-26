@@ -20,8 +20,6 @@
       }
     },
     "web": {},
-    "plugins": [
-      "expo-router"
-    ]
+    "plugins": ["expo-router"]
   }
 }
