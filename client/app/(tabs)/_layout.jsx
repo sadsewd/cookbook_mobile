@@ -31,6 +31,7 @@ const TabsLayout = () => {
     <>
       <Tabs
         screenOptions={{
+          headerShown: false,
           tabBarShowLabel: false,
           tabBarActiveTintColor: '#68016D',
           tabBarInactiveTintColor: '#39003C',
@@ -39,8 +40,8 @@ const TabsLayout = () => {
         <Tabs.Screen
           name='recipes'
           options={{
-            title: 'Recipes',
             headerShown: false,
+            title: 'Recipes',
             tabBarIcon: ({ color, focused }) => (
               <TabIcon color={color} name='Home' focused={focused} />
             ),
@@ -49,8 +50,8 @@ const TabsLayout = () => {
         <Tabs.Screen
           name='profile'
           options={{
-            title: 'Profile',
             headerShown: false,
+            title: 'Profile',
             tabBarIcon: ({ color, focused }) => (
               <TabIcon color={color} name='Profile' focused={focused} />
             ),
