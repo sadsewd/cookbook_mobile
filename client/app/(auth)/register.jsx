@@ -23,7 +23,6 @@ const register = () => {
   }
 
   const handleLogin = async () => {
-    let postErr = false
     if (email && password && repPassword) {
       if (validEmail.test(email)) {
         if (validPassword.test(password)) {
@@ -33,13 +32,11 @@ const register = () => {
                 email: email,
                 password: password,
               })
-              if (!postErr && res.status == 200) {
+              if (res.status == 200) {
                 setUser({ id: res.data.id })
-                setIsLogged(true)
                 router.replace('recipes')
               }
-            } catch (err) {
-              postErr = true
+            } catch (error) {
               setError('Servera kļūda!')
             }
           } else {
