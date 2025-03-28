@@ -6,12 +6,14 @@ import { useTheme } from '@react-navigation/native'
 import ErrorMessage from '../../components/Error'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useGlobalContext } from '../../context/GlobalProvider'
 
 const login = () => {
   const { colors } = useTheme()
   const [email, onChangeEmail] = useState('')
   const [password, onChangePassword] = useState('')
   const [Error, setError] = useState()
+  const { refreshPooling } = useGlobalContext()
 
   const setUser = async (id) => {
     try {
@@ -22,7 +24,6 @@ const login = () => {
   }
 
   const handleSubmit = async () => {
-    let postErr = false
     if (email && password) {
       if (validEmail.test(email)) {
         try {
@@ -30,13 +31,22 @@ const login = () => {
             email: email,
             password: password,
           })
-          if (!postErr && res.status == 200) {
+          if (res.status == 200) {
+            refreshPooling.current = setInterval(
+              () =>
+                axios.post('auth/refresh').catch(async () => {
+                  clearInterval(refreshPooling.current)
+                  await AsyncStorage.removeItem('user')
+                  router.replace('login')
+                }),
+              600000
+            )
+
             setUser({ id: res.data.id })
             router.replace('recipes')
           }
         } catch (error) {
           console.log(error)
-          postErr = true
           if (error.response.status == 403) {
             setError('Incorrect email and/or password!')
           } else {

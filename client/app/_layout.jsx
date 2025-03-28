@@ -10,9 +10,9 @@ const RootLayout = () => {
 
   useEffect(() => {
     retrieveData()
-  })
+  }, [])
 
-  retrieveData = async () => {
+  const retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('darkMode')
       if (value !== null) {

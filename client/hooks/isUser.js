@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 
 const isUser = () => {
   const [Data, setData] = useState(false)
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -14,8 +15,10 @@ const isUser = () => {
         setData(false)
       }
     }
+
     fetchUser()
   }, [])
+
   return Data
 }
 

@@ -5,6 +5,7 @@ import { validEmail, validPassword } from '../../regex/regex'
 import { useTheme } from '@react-navigation/native'
 import axios from 'axios'
 import ErrorMessage from '../../components/Error'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const register = () => {
   const { colors } = useTheme()
