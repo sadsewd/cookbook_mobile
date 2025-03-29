@@ -15,7 +15,7 @@ import { Redirect, useLocalSearchParams } from 'expo-router'
 import isUser from '../../hooks/isUser'
 
 const singleRecipe = () => {
-  if (!isUser()) return <Redirect href='/login' />
+  // if (!isUser()) return <Redirect href='/login' />
 
   const { id } = useLocalSearchParams()
   const { colors } = useTheme()
@@ -23,13 +23,9 @@ const singleRecipe = () => {
   // const [search, setSearch] = useState('')
   // const [recipesBackup, setRecipesBackup] = useState()
 
-  // const {
-  //   data: recipes,
-  //   setData: setRecipes,
-  //   isPending: isPendingRecipes,
-  //   error: errorRecipes,
-  //   initialLoad,
-  // } = useAxios({ url: 'custom/userRecipes' })
+  const { data, setData, isPending, error, initialLoad } = useAxios({
+    url: 'custom/recipe/' + id,
+  })
 
   // useEffect(() => {
   //   if (!initialLoad && recipes) setRecipesBackup(recipes)

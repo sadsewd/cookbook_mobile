@@ -18,16 +18,12 @@ const recipes = () => {
   const [search, setSearch] = useState('')
   const [recipesBackup, setRecipesBackup] = useState()
 
-  const {
-    data: recipes,
-    setData: setRecipes,
-    isPending: isPendingRecipes,
-    error: errorRecipes,
-    initialLoad,
-  } = useAxios({ url: 'custom/userRecipes' })
+  const { data, setData, isPending, error, initialLoad } = useAxios({
+    url: 'custom/userRecipes',
+  })
 
   useEffect(() => {
-    if (!initialLoad && recipes) setRecipesBackup(recipes)
+    if (!initialLoad && data) setRecipesBackup(data)
   }, [initialLoad])
 
   const styles = StyleSheet.create({
@@ -91,12 +87,12 @@ const recipes = () => {
   useEffect(() => {
     if (search.trim()) {
       if (recipesBackup)
-        setRecipes(
+        setData(
           recipesBackup.filter((el) =>
             el.name.toLowerCase().includes(search.toLowerCase())
           )
         )
-    } else setRecipes(recipesBackup)
+    } else setData(recipesBackup)
   }, [search])
 
   return (
@@ -130,10 +126,10 @@ const recipes = () => {
             />
           </View>
 
-          {isPendingRecipes ? (
+          {isPending ? (
             <ActivityIndicator size='large' color={colors.primary} />
           ) : (
-            recipes && recipes.map((el, i) => <Card key={i} item={el} />)
+            data && data.map((el, i) => <Card key={i} item={el} />)
           )}
         </View>
       </View>

@@ -72,6 +72,47 @@ router.post('/', authenticateSession, async (req, res) => {
   )
 })
 
+// router.post('/', async (req, res) => {
+//   const table = req.baseUrl.slice(1)
+//   let data = req.body
+
+//   if (!Array.isArray(data)) {
+//     return res
+//       .status(400)
+//       .json({ message: 'Request body must be an array of objects' })
+//   }
+
+//   data = data.map((entry) => ({
+//     ...entry,
+//     password: entry.password
+//       ? bcrypt.hashSync(entry.password, 10)
+//       : entry.password,
+//   }))
+
+//   const columns = Object.keys(data[0])
+//   const values = data.map((row) => columns.map((col) => row[col]))
+
+//   const placeholders = values
+//     .map(() => '(' + columns.map(() => `?`).join(', ') + ')')
+//     .join(', ')
+
+//   db.query(
+//     `INSERT INTO ?? (??) VALUES ${placeholders}`,
+//     [table, columns, ...values.flat()],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err.sql)
+//         res.status(500).json({ message: err.message })
+//       } else {
+//         res.json({
+//           message: 'Added entries',
+//           affectedRows: result.affectedRows,
+//         })
+//       }
+//     }
+//   )
+// })
+
 const isNumeric = (str) => {
   if (typeof str != 'string') return false
   return !isNaN(str) && !isNaN(parseFloat(str))

@@ -27,7 +27,7 @@ router.post('/login', async (req, res) => {
         const refreshToken = jwt.sign(
           { id: user.users_id },
           process.env.REFRESH_TOKEN_SECRET,
-          { expiresIn: '900000' }
+          { expiresIn: '900000ms' }
         )
 
         db.query(
@@ -40,7 +40,7 @@ router.post('/login', async (req, res) => {
               const accessToken = jwt.sign(
                 { id: user.users_id },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '900000' }
+                { expiresIn: '900000ms' }
               )
 
               res.cookie('refreshToken', refreshToken, {
@@ -86,7 +86,7 @@ router.post('/refresh', async (req, res) => {
             const accessToken = jwt.sign(
               user.id,
               process.env.ACCESS_TOKEN_SECRET,
-              { expiresIn: '900000' }
+              { expiresIn: '900000ms' }
             )
 
             res.cookie('accessToken', accessToken, {
