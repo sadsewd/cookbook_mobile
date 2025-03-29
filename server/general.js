@@ -31,7 +31,7 @@ router.get('/', authenticateSession, async (req, res) => {
   })
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authenticateSession, async (req, res) => {
   const table = req.baseUrl.slice(1)
   const column = table + '_id'
   const id = req.params.id
@@ -49,7 +49,7 @@ router.get('/:id', async (req, res) => {
   )
 })
 
-router.post('/', async (req, res) => {
+router.post('/', authenticateSession, async (req, res) => {
   const table = req.baseUrl.slice(1)
 
   if (req.body.password) {
@@ -112,7 +112,7 @@ router.patch('/:id', async (req, res) => {
   )
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticateSession, async (req, res) => {
   const table = req.baseUrl.slice(1)
   const column = table + '_id'
   const id = req.params.id

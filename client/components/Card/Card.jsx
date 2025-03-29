@@ -1,5 +1,6 @@
 import { useTheme } from '@react-navigation/core'
-import { Button, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { router } from 'expo-router'
 
 const Card = ({ item }) => {
   const { colors } = useTheme()
@@ -24,7 +25,7 @@ const Card = ({ item }) => {
       borderRadius: 10,
     },
     pressedBtn: {
-      backgroundColor: colors.primary,
+      opacity: 0.5,
     },
     btnText: {
       fontSize: 20,
@@ -35,11 +36,11 @@ const Card = ({ item }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{item.title}</Text>
+      <Text style={styles.title}>{item?.name}</Text>
 
       {/* <View> */}
       <Pressable
-        onPress={() => {}}
+        onPress={() => router.push(`/singleRecipe/${item?.recipes_id}`)}
         style={({ pressed }) => [styles.btn, pressed && styles.pressedBtn]}
       >
         {({ pressed }) => (

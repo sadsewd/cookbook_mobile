@@ -1,28 +1,40 @@
 import {
   View,
   Text,
-  Button,
   TextInput,
   StyleSheet,
   Pressable,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native'
 import Card from '../../components/Card'
 import { useTheme } from '@react-navigation/core'
+import { useEffect, useState } from 'react'
+import useAxios from '../../hooks/useAxios'
 
 const recipes = () => {
   const { colors } = useTheme()
-  const recipes = [
-    { title: 'title1', id: 1 },
-    { title: 'title1', id: 1 },
-    { title: 'title1', id: 1 },
-    { title: 'title1', id: 1 },
-  ]
+  const [isFocused, setIsFocused] = useState(false)
+  const [search, setSearch] = useState('')
+  const [recipesBackup, setRecipesBackup] = useState()
+
+  const {
+    data: recipes,
+    setData: setRecipes,
+    isPending: isPendingRecipes,
+    error: errorRecipes,
+    initialLoad,
+  } = useAxios({ url: 'custom/userRecipes' })
+
+  useEffect(() => {
+    if (!initialLoad && recipes) setRecipesBackup(recipes)
+  }, [initialLoad])
 
   const styles = StyleSheet.create({
     container: {
       marginTop: 0,
       margin: 40,
+      flex: 1,
     },
     optionBox: {
       marginLeft: 20,
@@ -45,6 +57,10 @@ const recipes = () => {
       boxShadow: '0 0 0 5px ' + colors.primary,
       margin: 5,
       borderRadius: 5,
+      outlineColor: 'transparent',
+    },
+    searchFocus: {
+      backgroundColor: colors.primary,
     },
     addBtn: {
       backgroundColor: colors.primary,
@@ -52,7 +68,7 @@ const recipes = () => {
       borderRadius: 10,
     },
     pressedAddBtn: {
-      backgroundColor: colors.primary,
+      opacity: 0.5,
     },
     addText: {
       fontSize: 20,
@@ -63,11 +79,28 @@ const recipes = () => {
     },
     cardBox: {
       gap: 20,
+      flex: 1,
+    },
+    recipes: {
+      // alignContent: 'center',
+      flex: 1,
+      justifyContent: 'center',
     },
   })
 
+  useEffect(() => {
+    if (search.trim()) {
+      if (recipesBackup)
+        setRecipes(
+          recipesBackup.filter((el) =>
+            el.name.toLowerCase().includes(search.toLowerCase())
+          )
+        )
+    } else setRecipes(recipesBackup)
+  }, [search])
+
   return (
-    <ScrollView>
+    <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
         <Text style={styles.heading}>Your recipes</Text>
 
@@ -87,12 +120,21 @@ const recipes = () => {
                 </Text>
               )}
             </Pressable>
-            <TextInput style={styles.search} placeholder='Search recipe...' />
+            <TextInput
+              style={[styles.search, isFocused && styles.searchFocus]}
+              placeholder='Search recipe...'
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              value={search}
+              onChangeText={(value) => setSearch(value)}
+            />
           </View>
 
-          {recipes.map((el, i) => (
-            <Card key={i} item={el} />
-          ))}
+          {isPendingRecipes ? (
+            <ActivityIndicator size='large' color={colors.primary} />
+          ) : (
+            recipes && recipes.map((el, i) => <Card key={i} item={el} />)
+          )}
         </View>
       </View>
     </ScrollView>
