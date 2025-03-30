@@ -11,20 +11,25 @@ import Card from '../../components/Card'
 import { useTheme } from '@react-navigation/core'
 import { useEffect, useState } from 'react'
 import useAxios from '../../hooks/useAxios'
+import { Redirect, useLocalSearchParams } from 'expo-router'
+import isUser from '../../hooks/isUser'
 
-const recipes = () => {
+const singleRecipe = () => {
+  // if (!isUser()) return <Redirect href='/login' />
+
+  const { id } = useLocalSearchParams()
   const { colors } = useTheme()
-  const [isFocused, setIsFocused] = useState(false)
-  const [search, setSearch] = useState('')
-  const [recipesBackup, setRecipesBackup] = useState()
+  // const [isFocused, setIsFocused] = useState(false)
+  // const [search, setSearch] = useState('')
+  // const [recipesBackup, setRecipesBackup] = useState()
 
   const { data, setData, isPending, error, initialLoad } = useAxios({
-    url: 'custom/userRecipes',
+    url: 'custom/recipe/' + id,
   })
 
-  useEffect(() => {
-    if (!initialLoad && data) setRecipesBackup(data)
-  }, [initialLoad])
+  // useEffect(() => {
+  //   if (!initialLoad && recipes) setRecipesBackup(recipes)
+  // }, [initialLoad])
 
   const styles = StyleSheet.create({
     container: {
@@ -84,57 +89,24 @@ const recipes = () => {
     },
   })
 
-  useEffect(() => {
-    if (search.trim()) {
-      if (recipesBackup)
-        setData(
-          recipesBackup.filter((el) =>
-            el.name.toLowerCase().includes(search.toLowerCase())
-          )
-        )
-    } else setData(recipesBackup)
-  }, [search])
+  // useEffect(() => {
+  //   if (search.trim()) {
+  //     if (recipesBackup)
+  //       setRecipes(
+  //         recipesBackup.filter((el) =>
+  //           el.name.toLowerCase().includes(search.toLowerCase())
+  //         )
+  //       )
+  //   } else setRecipes(recipesBackup)
+  // }, [search])
 
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
-        <Text style={styles.heading}>Your recipes</Text>
-
-        <View style={styles.cardBox}>
-          <View style={styles.optionBox}>
-            <Pressable
-              onPress={() => {}}
-              style={({ pressed }) => [
-                styles.addBtn,
-                pressed && styles.pressedAddBtn,
-              ]}
-            >
-              {({ pressed }) => (
-                <Text style={styles.addText}>
-                  Add recipe
-                  {/* {pressed ? 'Pressed!' : 'Add recipe'} */}
-                </Text>
-              )}
-            </Pressable>
-            <TextInput
-              style={[styles.search, isFocused && styles.searchFocus]}
-              placeholder='Search recipe...'
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              value={search}
-              onChangeText={(value) => setSearch(value)}
-            />
-          </View>
-
-          {isPending ? (
-            <ActivityIndicator size='large' color={colors.primary} />
-          ) : (
-            data && data.map((el, i) => <Card key={i} item={el} />)
-          )}
-        </View>
+        <Text style={styles.heading}>{id}</Text>
       </View>
     </ScrollView>
   )
 }
 
-export default recipes
+export default singleRecipe

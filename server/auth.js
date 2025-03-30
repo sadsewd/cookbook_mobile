@@ -24,7 +24,11 @@ router.post('/login', async (req, res) => {
       const isCorrectPass = bcrypt.compareSync(password, user.password)
 
       if (isCorrectPass) {
-        const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+        const refreshToken = jwt.sign(
+          { id: user.users_id },
+          process.env.REFRESH_TOKEN_SECRET,
+          { expiresIn: '900000ms' }
+        )
 
         db.query(
           `UPDATE users SET refresh_token = ? WHERE users_id = ?`,
@@ -34,8 +38,9 @@ router.post('/login', async (req, res) => {
               res.status(500).json({ message: err.message })
             } else {
               const accessToken = jwt.sign(
-                user,
-                process.env.ACCESS_TOKEN_SECRET
+                { id: user.users_id },
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: '900000ms' }
               )
 
               res.cookie('refreshToken', refreshToken, {
@@ -43,7 +48,7 @@ router.post('/login', async (req, res) => {
                 sameSite: 'strict',
               })
               res.cookie('accessToken', accessToken, {
-                maxAge: 1000 * 30,
+                maxAge: 900000,
                 httpOnly: true,
                 sameSite: 'strict',
               })
@@ -58,7 +63,6 @@ router.post('/login', async (req, res) => {
 
 router.post('/refresh', async (req, res) => {
   const refreshToken = req.cookies.refreshToken
-  console.log(req.cookies)
 
   if (!refreshToken) return res.status(401).json({ message: 'No token' })
 
@@ -79,8 +83,11 @@ router.post('/refresh', async (req, res) => {
           process.env.REFRESH_TOKEN_SECRET,
           (err, user) => {
             if (err) return res.status(403).json({ message: 'Invalid token' })
-
-            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+            const accessToken = jwt.sign(
+              user.id,
+              process.env.ACCESS_TOKEN_SECRET,
+              { expiresIn: '900000ms' }
+            )
 
             res.cookie('accessToken', accessToken, {
               maxAge: 1000 * 10,

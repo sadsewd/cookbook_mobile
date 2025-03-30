@@ -40,12 +40,12 @@ export default function App() {
         <View style={styles.contentCon}>
           <Text style={styles.heading}>Cookbook</Text>
           <Button
-            onPress={() => router.replace('login')}
+            onPress={() => router.push('login')}
             color={colors.button}
             title='login'
           />
           <Button
-            onPress={() => router.replace('register')}
+            onPress={() => router.push('register')}
             color={colors.button}
             title='register'
           />
