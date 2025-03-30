@@ -26,8 +26,7 @@ router.post('/login', async (req, res) => {
       if (isCorrectPass) {
         const refreshToken = jwt.sign(
           { id: user.users_id },
-          process.env.REFRESH_TOKEN_SECRET,
-          { expiresIn: '900000ms' }
+          process.env.REFRESH_TOKEN_SECRET
         )
 
         db.query(
@@ -39,18 +38,19 @@ router.post('/login', async (req, res) => {
             } else {
               const accessToken = jwt.sign(
                 { id: user.users_id },
-                process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '900000ms' }
+                process.env.ACCESS_TOKEN_SECRET
               )
 
               res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
-                sameSite: 'strict',
+                sameSite: 'none',
+                secure: true,
               })
               res.cookie('accessToken', accessToken, {
                 maxAge: 900000,
                 httpOnly: true,
-                sameSite: 'strict',
+                sameSite: 'none',
+                secure: true,
               })
               res.status(200).send({ id: user.users_id })
             }
@@ -83,16 +83,13 @@ router.post('/refresh', async (req, res) => {
           process.env.REFRESH_TOKEN_SECRET,
           (err, user) => {
             if (err) return res.status(403).json({ message: 'Invalid token' })
-            const accessToken = jwt.sign(
-              user.id,
-              process.env.ACCESS_TOKEN_SECRET,
-              { expiresIn: '900000ms' }
-            )
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
 
             res.cookie('accessToken', accessToken, {
-              maxAge: 1000 * 10,
+              maxAge: 900000,
               httpOnly: true,
-              sameSite: 'strict',
+              sameSite: 'none',
+              secure: true,
             })
             res.sendStatus(200)
           }

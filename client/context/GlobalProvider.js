@@ -10,7 +10,13 @@ export const useGlobalContext = () => useContext(GlobalContext)
 const GlobalProvider = ({ children }) => {
   const refreshPooling = useRef()
 
-  if (isUser())
+  if (isUser()) {
+    axios.post('auth/refresh').catch(async () => {
+      clearInterval(refreshPooling.current)
+      await AsyncStorage.removeItem('user')
+      router.replace('login')
+    })
+
     refreshPooling.current = setInterval(
       () =>
         axios.post('auth/refresh').catch(async () => {
@@ -20,6 +26,7 @@ const GlobalProvider = ({ children }) => {
         }),
       600000
     )
+  }
 
   axios.defaults.baseURL = 'https://cookbook-api-46gk.onrender.com'
   axios.defaults.withCredentials = true

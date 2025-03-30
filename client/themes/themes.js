@@ -15,7 +15,7 @@ export const Dark = {
   colors: {
     ...DarkTheme.colors,
     primary: 'rgb(50, 83, 68)',
-    secondary: 'rgb(28, 40, 38)', //'#1C2826',
+    secondary: 'rgb(28, 40, 38)',
     tertiary: '#8CA879',
     warning: '#FFD93D',
     success: '#4CAF50',
@@ -40,7 +40,7 @@ export const Light = {
   colors: {
     ...DefaultTheme.colors,
     primary: 'rgb(43, 179, 72)',
-    secondary: 'rgb(23, 119, 39)', //'#1C2826',
+    secondary: 'rgb(23, 119, 39)',
     tertiary: '#8CA879',
     warning: '#FFD93D',
     success: '#4CAF50',
