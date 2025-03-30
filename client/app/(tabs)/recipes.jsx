@@ -70,15 +70,20 @@ const recipes = () => {
       fontSize: 20,
       textAlign: 'center',
       color: colors.textInvert,
-      // textTransform: 'uppercase',
       fontWeight: 'bolder',
     },
-    cardBox: {
+    mainBox: {
       gap: 20,
       flex: 1,
     },
     recipes: {
-      // alignContent: 'center',
+      flex: 1,
+      justifyContent: 'center',
+    },
+    scrollView: {
+      flex: 1,
+    },
+    loaderBox: {
       flex: 1,
       justifyContent: 'center',
     },
@@ -96,11 +101,11 @@ const recipes = () => {
   }, [search])
 
   return (
-    <ScrollView style={styles.scrollView}>
+    <ScrollView contentContainerStyle={isPending && styles.scrollView}>
       <View style={styles.container}>
         <Text style={styles.heading}>Your recipes</Text>
 
-        <View style={styles.cardBox}>
+        <View style={styles.mainBox}>
           <View style={styles.optionBox}>
             <Pressable
               onPress={() => {}}
@@ -127,7 +132,9 @@ const recipes = () => {
           </View>
 
           {isPending ? (
-            <ActivityIndicator size='large' color={colors.primary} />
+            <View style={styles.loaderBox}>
+              <ActivityIndicator size='large' color={colors.primary} />
+            </View>
           ) : (
             data && data.map((el, i) => <Card key={i} item={el} />)
           )}

@@ -12,7 +12,7 @@ const authenticateSession = (req, res, next) => {
     if (err) {
       res.status(403).json({ message: 'Invalid token' })
     } else {
-      console.log(user)
+      console.log('user', user)
       req.user = user
       next()
     }
@@ -72,22 +72,25 @@ router.get('/userRecipes', authenticateSession, async (req, res) => {
 router.get('/recipe/:id', authenticateSession, async (req, res) => {
   try {
     const recipeId = req.params.id
+    const userId = req.user.id
 
-    const [recipe] = await db.query(
-      `SELECT * FROM recipes WHERE recipes_id = ?`,
-      [recipeId]
-    )
+    const [recipe] = await db
+      .promise()
+      .query(`SELECT * FROM recipes WHERE recipes_id = ? AND users_id = ?`, [
+        recipeId,
+        userId,
+      ])
     if (recipe.length === 0)
       return res.status(404).json({ message: 'Recipe not found' })
 
-    const [ingredients] = await db.query(
-      `SELECT * FROM ingredients WHERE recipes_id = ?`,
-      [recipeId]
-    )
-    const [steps] = await db.query(
-      `SELECT * FROM steps WHERE recipes_id = ? ORDER BY sequence`,
-      [recipeId]
-    )
+    const [ingredients] = await db
+      .promise()
+      .query(`SELECT * FROM ingredients WHERE recipes_id = ?`, [recipeId])
+    const [steps] = await db
+      .promise()
+      .query(`SELECT * FROM steps WHERE recipes_id = ? ORDER BY sequence`, [
+        recipeId,
+      ])
 
     res.json({
       recipe: recipe[0],

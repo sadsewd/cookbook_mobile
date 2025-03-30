@@ -8,13 +8,15 @@ const GlobalContext = createContext()
 export const useGlobalContext = () => useContext(GlobalContext)
 
 const GlobalProvider = ({ children }) => {
-  // const [isLogged, setIsLogged] = useState(false)
-  // const [user, setUser] = useState(null)
-  // const [loading, setLoading] = useState(true)
-  // const [darkMode, setDarkMode] = useState(true)
   const refreshPooling = useRef()
 
-  if (isUser())
+  if (isUser()) {
+    axios.post('auth/refresh').catch(async () => {
+      clearInterval(refreshPooling.current)
+      await AsyncStorage.removeItem('user')
+      router.replace('login')
+    })
+
     refreshPooling.current = setInterval(
       () =>
         axios.post('auth/refresh').catch(async () => {
@@ -24,6 +26,7 @@ const GlobalProvider = ({ children }) => {
         }),
       600000
     )
+  }
 
   axios.defaults.baseURL = 'http://localhost:3001'
   axios.defaults.withCredentials = true
