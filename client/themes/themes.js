@@ -1,4 +1,14 @@
 import { DarkTheme, DefaultTheme } from '@react-navigation/native'
+import { PixelRatio } from 'react-native'
+let scale = PixelRatio.get()
+
+const Sizing = {
+  sizing: {
+    heading: 36 * scale,
+    label: 24 * scale,
+    text: 16 * scale,
+  },
+}
 
 export const Dark = {
   ...DarkTheme,
@@ -10,9 +20,10 @@ export const Dark = {
     button: 'rgb(160, 1, 139)',
     inputBG: 'rgb(150, 17, 121)',
     inputBorder: 'rgb(54, 0, 38)',
-    error: 'white',
     errorBG: 'red',
+    successBG: 'green',
   },
+  ...Sizing,
 }
 
 export const Light = {
@@ -25,7 +36,10 @@ export const Light = {
     button: 'rgb(160, 1, 139)',
     inputBG: 'rgb(255, 83, 83)',
     inputBorder: 'rgb(0, 0, 0)',
+    errorBG: 'red',
+    successBG: 'green',
   },
+  ...Sizing,
 }
 
 export default { Dark, Light }

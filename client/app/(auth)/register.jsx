@@ -119,7 +119,7 @@ const register = () => {
           />
         </View>
         <Button onPress={handleLogin} title='Register' color={colors.button} />
-        {Error ? <ErrorMessage msg={Error} /> : <></>}
+        {Error ? <ErrorMessage msg={Error} success={false} /> : <></>}
       </View>
     </View>
   )

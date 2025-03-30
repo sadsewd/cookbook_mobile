@@ -118,7 +118,7 @@ const login = () => {
           />
         </View>
         <Button onPress={handleSubmit} title='Log in' color={colors.button} />
-        {Error ? <ErrorMessage msg={Error} /> : <></>}
+        {Error ? <ErrorMessage msg={Error} success={false} /> : <></>}
       </View>
     </View>
   )
