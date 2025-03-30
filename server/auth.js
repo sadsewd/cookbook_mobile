@@ -43,10 +43,12 @@ router.post('/login', async (req, res) => {
 
               res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
+                sameSite: 'none',
               })
               res.cookie('accessToken', accessToken, {
                 maxAge: 900000,
                 httpOnly: true,
+                sameSite: 'none',
               })
               res.status(200).send({ id: user.users_id })
             }
@@ -84,6 +86,7 @@ router.post('/refresh', async (req, res) => {
             res.cookie('accessToken', accessToken, {
               maxAge: 900000,
               httpOnly: true,
+              sameSite: 'none',
             })
             res.sendStatus(200)
           }
