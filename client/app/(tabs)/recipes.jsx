@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react'
 import useAxios from '../../hooks/useAxios'
 
 const recipes = () => {
-  const { colors } = useTheme()
+  const { colors, sizing } = useTheme()
   const [isFocused, setIsFocused] = useState(false)
   const [search, setSearch] = useState('')
   const [recipesBackup, setRecipesBackup] = useState()
@@ -39,13 +39,13 @@ const recipes = () => {
     },
     heading: {
       textAlign: 'center',
-      fontSize: 36,
-      color: colors.text,
+      fontSize: sizing.heading,
+      color: colors.inverted,
       fontWeight: 'bold',
       padding: 32,
     },
     search: {
-      color: colors.textInvert,
+      color: colors.text,
       padding: 14,
       backgroundColor: colors.secondary,
       fontSize: 20,
@@ -67,9 +67,9 @@ const recipes = () => {
       opacity: 0.5,
     },
     addText: {
-      fontSize: 20,
+      fontSize: sizing.label,
       textAlign: 'center',
-      color: colors.textInvert,
+      color: colors.text,
       fontWeight: 'bolder',
     },
     mainBox: {
@@ -122,6 +122,7 @@ const recipes = () => {
               )}
             </Pressable>
             <TextInput
+              placeholderTextColor={colors.text}
               style={[styles.search, isFocused && styles.searchFocus]}
               placeholder='Search recipe...'
               onFocus={() => setIsFocused(true)}

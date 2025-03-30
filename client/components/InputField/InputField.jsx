@@ -16,14 +16,16 @@ const InputField = ({
       width: '100%',
       borderRadius: 8,
       fontSize: sizing.text,
-      borderColor: colors.inputBorder,
+      borderColor: colors.primary,
+      borderWidth: 3,
       color: colors.text,
-      backgroundColor: colors.inputBG,
+      backgroundColor: colors.secondary,
     },
   })
   return (
     <TextInput
       style={styles.input}
+      placeholderTextColor={colors.text}
       value={value}
       onChangeText={onChange}
       placeholder={placeholder}

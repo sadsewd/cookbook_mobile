@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 const initVal = { description: '' }
 
 const Step = ({ item, disabled, onDescChange, onDelete, newItem, onAdd }) => {
-  const { colors } = useTheme()
+  const { colors, sizing } = useTheme()
   const [values, setValues] = useState(initVal)
 
   const styles = StyleSheet.create({
@@ -22,15 +22,17 @@ const Step = ({ item, disabled, onDescChange, onDelete, newItem, onAdd }) => {
       backgroundColor: colors.secondary,
       padding: disabled ? 20 : 0,
       borderRadius: 10,
-      color: colors.textInvert,
-      fontSize: 15,
+      color: colors.text,
+      fontSize: sizing.text,
+      textAlignVertical: 'center',
       minWidth: 0,
       outlineColor: 'transparent',
     },
     textAmount: {
       display: 'flex',
       alignItems: 'center',
-      fontSize: 12,
+      textAlignVertical: 'center',
+      fontSize: sizing.small,
       padding: 15,
       fontWeight: 'bold',
     },
