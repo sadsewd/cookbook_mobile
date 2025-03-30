@@ -7,13 +7,12 @@ const Card = ({ item }) => {
 
   const styles = StyleSheet.create({
     container: {
-      padding: '1rem',
+      padding: 16,
       backgroundColor: colors.secondary,
       gap: 15,
       borderRadius: 20,
     },
     title: {
-      //   padding: '1rem',
       textAlign: 'center',
       fontSize: sizing.label,
       color: colors.text,
@@ -21,7 +20,7 @@ const Card = ({ item }) => {
     },
     btn: {
       backgroundColor: colors.primary,
-      padding: '1rem',
+      padding: 16,
       borderRadius: 10,
     },
     pressedBtn: {
@@ -38,30 +37,19 @@ const Card = ({ item }) => {
     <View style={styles.container}>
       <Text style={styles.title}>{item?.name}</Text>
 
-      {/* <View> */}
       <Pressable
-        onPress={() => router.push(`/singleRecipe/${item?.recipes_id}`)}
+        onPress={() => router.push(`/singleRecipe/${item?.recipes_id}/false`)}
         style={({ pressed }) => [styles.btn, pressed && styles.pressedBtn]}
       >
-        {({ pressed }) => (
-          <Text style={styles.btnText}>
-            View recipe
-            {/* {pressed ? 'Pressed!' : 'Add recipe'} */}
-          </Text>
-        )}
+        <Text style={styles.btnText}>View recipe</Text>
       </Pressable>
+
       <Pressable
-        onPress={() => {}}
+        onPress={() => router.push(`/singleRecipe/${item?.recipes_id}/true`)}
         style={({ pressed }) => [styles.btn, pressed && styles.pressedBtn]}
       >
-        {({ pressed }) => (
-          <Text style={styles.btnText}>
-            Edit recipe
-            {/* {pressed ? 'Pressed!' : 'Add recipe'} */}
-          </Text>
-        )}
+        <Text style={styles.btnText}>Edit recipe</Text>
       </Pressable>
-      {/* </View> */}
     </View>
   )
 }
