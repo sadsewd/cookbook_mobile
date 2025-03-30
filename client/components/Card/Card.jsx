@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { router } from 'expo-router'
 
 const Card = ({ item }) => {
-  const { colors } = useTheme()
+  const { colors, sizing } = useTheme()
 
   const styles = StyleSheet.create({
     container: {
@@ -15,8 +15,8 @@ const Card = ({ item }) => {
     title: {
       //   padding: '1rem',
       textAlign: 'center',
-      fontSize: 26,
-      color: colors.textInvert,
+      fontSize: sizing.label,
+      color: colors.text,
       fontWeight: 'bold',
     },
     btn: {
@@ -28,9 +28,9 @@ const Card = ({ item }) => {
       opacity: 0.5,
     },
     btnText: {
-      fontSize: 20,
+      fontSize: sizing.label - 2,
       textAlign: 'center',
-      color: colors.textInvert,
+      color: colors.text,
     },
   })
 

@@ -10,18 +10,16 @@ import {
 import { useTheme } from '@react-navigation/core'
 import { useEffect, useState } from 'react'
 import useAxios from '../../hooks/useAxios'
-import { Redirect, useLocalSearchParams } from 'expo-router'
-import isUser from '../../hooks/isUser'
+import { useLocalSearchParams } from 'expo-router'
 import Ingredient from '../../components/Ingredient'
 import Step from '../../components/Step'
 
 const singleRecipe = (initMode = false) => {
-  // if (!isUser()) return <Redirect href='/login' />
   const [editMode, setEditMode] = useState(initMode)
   const [values, setValues] = useState()
 
   const { id } = useLocalSearchParams()
-  const { colors } = useTheme()
+  const { colors, sizing } = useTheme()
 
   const { data, setData, isPending } = useAxios({
     url: 'custom/recipe/' + id,
@@ -43,7 +41,7 @@ const singleRecipe = (initMode = false) => {
     },
     heading: {
       textAlign: 'center',
-      fontSize: 20,
+      fontSize: sizing.label,
       color: colors.text,
       fontWeight: 'bold',
       backgroundColor: colors.primary,
@@ -62,10 +60,10 @@ const singleRecipe = (initMode = false) => {
       opacity: 0.5,
     },
     addText: {
-      fontSize: 20,
+      fontSize: sizing.label,
       textAlign: 'center',
-      color: colors.textInvert,
-      fontWeight: 'bolder',
+      fontWeight: 'bold',
+      color: colors.text,
     },
     mainBox: {
       gap: 20,
@@ -101,9 +99,9 @@ const singleRecipe = (initMode = false) => {
       justifyContent: 'center',
     },
     editText: {
-      color: colors.textInvert,
+      color: colors.text,
       fontWeight: 'bolder',
-      fontSize: 30,
+      fontSize: sizing.heading,
     },
     pressedAddBtn: {
       backgroundColor: colors.secondary,

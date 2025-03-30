@@ -2,7 +2,7 @@ import { useTheme } from '@react-navigation/core'
 import { StyleSheet, Text, View } from 'react-native'
 
 const Step = ({ item }) => {
-  const { colors } = useTheme()
+  const { colors, sizing } = useTheme()
 
   const styles = StyleSheet.create({
     container: {
@@ -17,13 +17,15 @@ const Step = ({ item }) => {
       backgroundColor: colors.secondary,
       padding: 20,
       borderRadius: 10,
-      color: colors.textInvert,
-      fontSize: 15,
+      color: colors.text,
+      fontSize: sizing.text,
+      textAlignVertical: 'center',
     },
     textAmount: {
       display: 'flex',
       alignItems: 'center',
-      fontSize: 12,
+      textAlignVertical: 'center',
+      fontSize: sizing.small,
       padding: 15,
       fontWeight: 'bold',
     },

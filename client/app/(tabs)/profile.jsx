@@ -1,6 +1,6 @@
 import { useTheme } from '@react-navigation/core'
 import { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native'
 import InputField from '../../components/InputField/InputField'
 import Checkbox from 'expo-checkbox'
 import { Appearance } from 'react-native'
@@ -8,8 +8,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import { validEmail, validPassword } from '../../regex/regex'
 import ErrorMessage from '../../components/Error'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons/faRightFromBracket'
+import { Dimensions } from 'react-native'
+import { router } from 'expo-router'
 
 const profile = () => {
+  const { height } = Dimensions.get('window')
   const { colors, sizing } = useTheme()
   const colorScheme = Appearance.getColorScheme()
   const [email, setEmail] = useState('')
@@ -160,9 +165,17 @@ const profile = () => {
     }
   }
 
+  const handleLogOut = async () => {
+    await AsyncStorage.removeItem('user').finally((res) =>
+      axios
+        .post(`/auth/logout`)
+        .finally((res) => console.log(res), router.replace('login'))
+    )
+  }
+
   const styles = StyleSheet.create({
     main: {
-      height: '100%',
+      height: height,
       width: '100%',
       justifyContent: 'center',
       alignItems: 'center',
@@ -172,8 +185,7 @@ const profile = () => {
       height: '90%',
       justifyContent: 'space-around',
       padding: '5%',
-      backgroundColor: colors.card,
-      backgroundColor: colors.container,
+      backgroundColor: colors.secondary,
       borderRadius: 8,
     },
     inputCon: {
@@ -198,7 +210,7 @@ const profile = () => {
       gap: 8,
     },
     button: {
-      backgroundColor: colors.button,
+      backgroundColor: colors.tertiary,
       borderRadius: 4,
     },
     buttonContent: {
@@ -215,9 +227,18 @@ const profile = () => {
   })
 
   return (
-    <View style={styles.main}>
+    <ScrollView contentContainerStyle={styles.main}>
       <View style={styles.container}>
-        <Text style={styles.Heading}>Settings</Text>
+        <Text style={styles.Heading}>
+          Settings
+          <Pressable onPress={handleLogOut} style={{ paddingLeft: 16 }}>
+            <FontAwesomeIcon
+              icon={faRightFromBracket}
+              color={colors.tertiary}
+              size={sizing.label}
+            />
+          </Pressable>
+        </Text>
         <View style={styles.inputCon}>
           <Text style={styles.label}>Email</Text>
           <InputField value={email} placeholder='email' onChange={setEmail} />
@@ -257,12 +278,17 @@ const profile = () => {
           )}
         </View>
         <View>
-          <Text style={styles.label}>Color scheme (requires restart)</Text>
+          <Text style={styles.label}>
+            Color scheme{' '}
+            <Text style={{ ...styles.label, fontSize: sizing.small }}>
+              (requires restart)
+            </Text>
+          </Text>
           <View style={styles.checboxCon}>
             <View style={styles.indCheckbox}>
               <Text style={styles.checkboxLabel}>Dark</Text>
               <Checkbox
-                color={colors.button}
+                color={colors.tertiary}
                 value={checkboxState.dark}
                 onValueChange={() => {
                   setCheckboxState({ dark: true, ligth: false, system: false })
@@ -272,7 +298,7 @@ const profile = () => {
             <View style={styles.indCheckbox}>
               <Text style={styles.checkboxLabel}>Light</Text>
               <Checkbox
-                color={colors.button}
+                color={colors.tertiary}
                 value={checkboxState.ligth}
                 onValueChange={() => {
                   setCheckboxState({ dark: false, ligth: true, system: false })
@@ -282,7 +308,7 @@ const profile = () => {
             <View style={styles.indCheckbox}>
               <Text style={styles.checkboxLabel}>System</Text>
               <Checkbox
-                color={colors.button}
+                color={colors.tertiary}
                 value={checkboxState.system}
                 onValueChange={() => {
                   setCheckboxState({ dark: false, ligth: false, system: true })
@@ -292,7 +318,7 @@ const profile = () => {
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 

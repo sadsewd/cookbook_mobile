@@ -2,7 +2,7 @@ import { useTheme } from '@react-navigation/core'
 import { StyleSheet, Text, View } from 'react-native'
 
 const Ingredient = ({ item }) => {
-  const { colors } = useTheme()
+  const { colors, sizing } = useTheme()
 
   const styles = StyleSheet.create({
     container: {
@@ -17,8 +17,9 @@ const Ingredient = ({ item }) => {
       backgroundColor: colors.secondary,
       padding: 20,
       borderRadius: 10,
-      color: colors.textInvert,
-      fontSize: 15,
+      color: colors.text,
+      fontSize: sizing.text,
+      textAlignVertical: 'center',
     },
     textName: {
       flex: 2,

@@ -49,12 +49,12 @@ const RootLayout = () => {
     <GlobalProvider>
       <ThemeProvider value={darkModeBG ? Dark : Light}>
         <Stack>
-          <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-          <Stack.Screen name='(auth)' options={{ headerShown: false }} />
-          <Stack.Screen name='index' options={{ headerShown: false }} />
+          <Stack.Screen options={{ headerShown: false }} name='(tabs)' />
+          <Stack.Screen options={{ headerShown: false }} name='(auth)' />
+          <Stack.Screen options={{ headerShown: false }} name='index' />
           <Stack.Screen
-            name='singleRecipe/[id]'
             options={{ headerShown: false }}
+            name='singleRecipe/[id]'
           />
         </Stack>
       </ThemeProvider>

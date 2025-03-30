@@ -1,36 +1,28 @@
 import { DarkTheme, DefaultTheme } from '@react-navigation/native'
 import { PixelRatio } from 'react-native'
-let scale = PixelRatio.get()
+let scale = PixelRatio.getFontScale()
 
 const Sizing = {
   sizing: {
     heading: 36 * scale,
     label: 24 * scale,
     text: 16 * scale,
+    small: 12,
   },
 }
 
 export const Dark = {
   ...DarkTheme,
   colors: {
-    ...DarkTheme.colors,
     primary: 'rgb(50, 83, 68)',
     secondary: 'rgb(28, 40, 38)',
-    tertiary: '#8CA879',
-    warning: '#FFD93D',
-    success: '#4CAF50',
-    // error: '#E63946',
-    background: '#121212',
+    tertiary: 'rgb(140, 168, 121)',
+    warning: 'rgb(255, 217, 61)',
+    success: 'rgb(76, 175, 80)',
+    error: 'rgb(230, 57, 70)',
+    background: 'rgb(18, 18, 18)',
     text: 'rgb(255, 255, 255)',
-    textInvert: 'rgb(230, 230, 230)',
-
-    container: 'rgb(82, 0, 68)',
-    // text: 'rgb(255, 255, 255)',
-    button: 'rgb(160, 1, 139)',
-    inputBG: 'rgb(150, 17, 121)',
-    inputBorder: 'rgb(54, 0, 38)',
-    errorBG: 'red',
-    successBG: 'green',
+    textInvert: 'rgb(255, 255, 255)',
   },
   ...Sizing,
 }
@@ -38,24 +30,15 @@ export const Dark = {
 export const Light = {
   ...DefaultTheme,
   colors: {
-    ...DefaultTheme.colors,
     primary: 'rgb(43, 179, 72)',
     secondary: 'rgb(23, 119, 39)',
-    tertiary: '#8CA879',
-    warning: '#FFD93D',
-    success: '#4CAF50',
-    // error: '#E63946',
+    tertiary: 'rgb(140, 168, 121)',
+    warning: 'rgb(255, 217, 61)',
+    success: 'rgb(76, 175, 80)',
+    error: 'rgb(230, 57, 70)',
     background: 'rgb(239, 255, 230)',
-    text: 'rgb(36, 36, 36)',
-    textInvert: 'rgb(255, 255, 255)',
-
-    container: 'rgb(82, 0, 68)',
-    // text: 'rgb(255, 255, 255)',
-    button: 'rgb(160, 1, 139)',
-    inputBG: 'rgb(255, 83, 83)',
-    inputBorder: 'rgb(0, 0, 0)',
-    errorBG: 'red',
-    successBG: 'green',
+    text: 'rgb(255, 255, 255)',
+    textInvert: 'rgb(36, 36, 36)',
   },
   ...Sizing,
 }

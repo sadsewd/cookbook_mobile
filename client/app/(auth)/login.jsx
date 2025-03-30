@@ -1,5 +1,13 @@
 import { useState } from 'react'
-import { View, StyleSheet, TextInput, Text, Button } from 'react-native'
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  Button,
+  Dimensions,
+  Pressable,
+} from 'react-native'
 import { router } from 'expo-router'
 import { validEmail } from '../../regex/regex'
 import { useTheme } from '@react-navigation/native'
@@ -9,11 +17,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useGlobalContext } from '../../context/GlobalProvider'
 
 const login = () => {
-  const { colors } = useTheme()
+  const { colors, sizing } = useTheme()
   const [email, onChangeEmail] = useState('')
   const [password, onChangePassword] = useState('')
   const [Error, setError] = useState()
   const { refreshPooling } = useGlobalContext()
+  const { height } = Dimensions.get('window')
 
   const setUser = async (id) => {
     try {
@@ -68,12 +77,14 @@ const login = () => {
       padding: 10,
       width: '100%',
       borderRadius: 8,
-      borderColor: colors.inputBorder,
+      fontSize: sizing.text,
+      borderColor: colors.primary,
       color: colors.text,
-      backgroundColor: colors.inputBG,
+      backgroundColor: colors.secondary,
+      borderWidth: 3,
     },
     container: {
-      height: '100%',
+      height: height,
       width: '100%',
       justifyContent: 'center',
       alignItems: 'center',
@@ -82,10 +93,10 @@ const login = () => {
       height: '50%',
       width: '90%',
       justifyContent: 'center',
-      backgroundColor: colors.container,
+      backgroundColor: colors.secondary,
       paddingHorizontal: '5%',
       borderRadius: 8,
-      gap: '10%',
+      gap: 12,
     },
     form: {
       height: '50%',
@@ -99,7 +110,11 @@ const login = () => {
       <View style={styles.content}>
         <View style={styles.form}>
           <Text
-            style={{ fontWeight: 'bold', fontSize: 36, color: colors.text }}
+            style={{
+              fontWeight: 'bold',
+              fontSize: sizing.heading,
+              color: colors.text,
+            }}
           >
             Login
           </Text>
@@ -108,6 +123,7 @@ const login = () => {
             onChangeText={onChangeEmail}
             value={email}
             placeholder='E-mail'
+            placeholderTextColor={colors.text}
           />
           <TextInput
             style={styles.input}
@@ -115,9 +131,21 @@ const login = () => {
             value={password}
             placeholder='Password'
             secureTextEntry={true}
+            placeholderTextColor={colors.text}
           />
         </View>
-        <Button onPress={handleSubmit} title='Log in' color={colors.button} />
+        <Button onPress={handleSubmit} title='Log in' color={colors.tertiary} />
+        <Pressable onPress={() => router.replace('register')}>
+          <Text
+            style={{
+              fontSize: sizing.text,
+              color: colors.tertiary,
+              textAlign: 'center',
+            }}
+          >
+            Don't have an account
+          </Text>
+        </Pressable>
         {Error ? <ErrorMessage msg={Error} success={false} /> : <></>}
       </View>
     </View>

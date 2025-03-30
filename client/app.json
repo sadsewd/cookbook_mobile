@@ -1,14 +1,31 @@
 {
   "expo": {
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "userInterfaceStyle": "automatic"
+    },
+    "android": {
+      "userInterfaceStyle": "automatic",
+      "package": "com.sadsewd.cookbook"
+    },
     "name": "Cookbook",
     "slug": "cookbook",
     "scheme": "cookbook",
     "version": "1.0.0",
     "orientation": "portrait",
     "newArchEnabled": true,
+    "backgroundColor": "#000000",
     "splash": {
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#042b00"
     },
-    "plugins": ["expo-router"]
+    "plugins": ["expo-router"],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "8500a072-8467-4f81-a00c-5418a26a2397"
+      }
+    }
   }
 }

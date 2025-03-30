@@ -1,4 +1,12 @@
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Button,
+  Dimensions,
+  Pressable,
+} from 'react-native'
 import { useState } from 'react'
 import { router } from 'expo-router'
 import { validEmail, validPassword } from '../../regex/regex'
@@ -8,11 +16,12 @@ import ErrorMessage from '../../components/Error'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const register = () => {
-  const { colors } = useTheme()
+  const { colors, sizing } = useTheme()
   const [email, onChangeEmail] = useState('')
   const [password, onChangePassword] = useState('')
   const [repPassword, onChangeRepPassword] = useState('')
   const [Error, setError] = useState()
+  const { height } = Dimensions.get('window')
 
   const setUser = async (id) => {
     try {
@@ -62,12 +71,14 @@ const register = () => {
       padding: 10,
       width: '100%',
       borderRadius: 8,
-      borderColor: colors.inputBorder,
-      backgroundColor: colors.inputBG,
+      fontSize: sizing.text,
+      borderColor: colors.primary,
       color: colors.text,
+      backgroundColor: colors.secondary,
+      borderWidth: 3,
     },
     container: {
-      height: '100%',
+      height: height,
       width: '100%',
       justifyContent: 'center',
       alignItems: 'center',
@@ -77,7 +88,7 @@ const register = () => {
       width: '90%',
       justifyContent: 'center',
       paddingHorizontal: '5%',
-      backgroundColor: colors.container,
+      backgroundColor: colors.secondary,
       borderRadius: 8,
       gap: '10%',
     },
@@ -93,7 +104,11 @@ const register = () => {
       <View style={styles.content}>
         <View style={styles.form}>
           <Text
-            style={{ fontWeight: 'bold', fontSize: 36, color: colors.text }}
+            style={{
+              fontWeight: 'bold',
+              fontSize: sizing.heading,
+              color: colors.text,
+            }}
           >
             Register
           </Text>
@@ -102,6 +117,7 @@ const register = () => {
             onChangeText={onChangeEmail}
             value={email}
             placeholder='E-mail'
+            placeholderTextColor={colors.text}
           />
           <TextInput
             style={styles.input}
@@ -109,6 +125,7 @@ const register = () => {
             value={password}
             placeholder='Password'
             secureTextEntry={true}
+            placeholderTextColor={colors.text}
           />
           <TextInput
             style={styles.input}
@@ -116,9 +133,25 @@ const register = () => {
             value={repPassword}
             placeholder='Repeat password'
             secureTextEntry={true}
+            placeholderTextColor={colors.text}
           />
         </View>
-        <Button onPress={handleLogin} title='Register' color={colors.button} />
+        <Button
+          onPress={handleLogin}
+          title='Register'
+          color={colors.tertiary}
+        />
+        <Pressable onPress={() => router.replace('login')}>
+          <Text
+            style={{
+              fontSize: sizing.text,
+              color: colors.tertiary,
+              textAlign: 'center',
+            }}
+          >
+            Already have an account
+          </Text>
+        </Pressable>
         {Error ? <ErrorMessage msg={Error} success={false} /> : <></>}
       </View>
     </View>

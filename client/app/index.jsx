@@ -1,23 +1,21 @@
-import { Redirect, router } from 'expo-router'
+import { router } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { Button, StyleSheet, Text, View } from 'react-native'
+import { Button, Dimensions, StyleSheet, Text, View } from 'react-native'
 import { useTheme } from '@react-navigation/native'
-import isUser from '../hooks/isUser'
 
 export default function App() {
-  const { colors } = useTheme()
-
-  if (isUser()) return <Redirect href='/recipes' />
+  const { colors, sizing } = useTheme()
+  const { height } = Dimensions.get('window')
 
   const styles = StyleSheet.create({
     heading: {
       textAlign: 'center',
-      fontSize: 36,
+      fontSize: sizing.heading,
       color: colors.text,
     },
 
     container: {
-      height: '100%',
+      height: height,
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
@@ -26,10 +24,10 @@ export default function App() {
       width: '80%',
       height: '50%',
       justifyContent: 'center',
-      backgroundColor: colors.container,
+      backgroundColor: colors.secondary,
       paddingHorizontal: '5%',
-      borderRadius: '8px',
-      gap: '20%',
+      borderRadius: 8,
+      gap: sizing.label * 2,
     },
   })
 
@@ -41,12 +39,12 @@ export default function App() {
           <Text style={styles.heading}>Cookbook</Text>
           <Button
             onPress={() => router.push('login')}
-            color={colors.button}
+            color={colors.tertiary}
             title='login'
           />
           <Button
             onPress={() => router.push('register')}
-            color={colors.button}
+            color={colors.tertiary}
             title='register'
           />
         </View>
