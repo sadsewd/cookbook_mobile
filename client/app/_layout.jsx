@@ -53,7 +53,7 @@ const RootLayout = () => {
           <Stack.Screen name='(auth)' options={{ headerShown: false }} />
           <Stack.Screen name='index' options={{ headerShown: false }} />
           <Stack.Screen
-            name='singleRecipe/[id]'
+            name='singleRecipe/[id]/[mode]'
             options={{ headerShown: false }}
           />
         </Stack>

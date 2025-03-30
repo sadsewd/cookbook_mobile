@@ -27,7 +27,7 @@ const GlobalProvider = ({ children }) => {
       600000
     )
   }
-
+  // axios.defaults.baseURL = 'http://localhost:3001'
   axios.defaults.baseURL = 'https://cookbook-api-46gk.onrender.com'
   axios.defaults.withCredentials = true
 

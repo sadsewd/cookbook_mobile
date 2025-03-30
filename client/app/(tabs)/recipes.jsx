@@ -42,11 +42,11 @@ const recipes = () => {
       fontSize: 36,
       color: colors.text,
       fontWeight: 'bold',
-      padding: '2rem',
+      padding: 32,
     },
     search: {
       color: colors.textInvert,
-      padding: 'calc(1.5rem - 10px)',
+      padding: 14,
       backgroundColor: colors.secondary,
       fontSize: 20,
       textAlign: 'center',
@@ -60,7 +60,7 @@ const recipes = () => {
     },
     addBtn: {
       backgroundColor: colors.primary,
-      padding: '1.5rem',
+      padding: 24,
       borderRadius: 10,
     },
     pressedAddBtn: {
