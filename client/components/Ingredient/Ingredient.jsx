@@ -13,7 +13,7 @@ const Ingredient = ({
   newItem,
   onAdd,
 }) => {
-  const { colors } = useTheme()
+  const { colors, sizing } = useTheme()
   const [values, setValues] = useState(initVal)
 
   const styles = StyleSheet.create({
