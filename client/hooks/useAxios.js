@@ -1,24 +1,33 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-const useAxios = ({ method = 'get', url, body, params }) => {
+const useAxios = ({ method = 'get', url, body, params, ignoreUE = false }) => {
   const [data, setData] = useState(null)
   const [isPending, setIsPending] = useState(true)
   const [error, setError] = useState(null)
   const [initialLoad, setInitialLoad] = useState(true)
 
-  const axiosRequest = () => {
+  const axiosRequest = ({
+    passedMethod = 'get',
+    passedUrl,
+    passedBody,
+    passedParams,
+  }) => {
     return axios({
-      method: method,
-      url: url,
-      data: body,
-      params: params,
+      method: method || passedMethod,
+      url: url || passedUrl,
+      data: body || passedBody,
+      params: params || passedParams,
     })
       .then((response) => {
         if (response?.data) setData(response.data)
+
+        return response
       })
       .catch((error) => {
         setError(error)
+
+        throw error
       })
       .finally(() => {
         setIsPending(false)
@@ -27,14 +36,29 @@ const useAxios = ({ method = 'get', url, body, params }) => {
   }
 
   useEffect(() => {
-    axiosRequest()
+    if (ignoreUE) return
+
+    axiosRequest({})
   }, [url])
 
-  const request = ({ method = 'get', url, body, params }) => {
-    return axiosRequest()
+  const request = (settings = {}) => {
+    return axiosRequest({
+      passedMethod: settings?.method,
+      passedBody: settings?.body,
+      passedParams: settings?.params,
+      passedUrl: settings?.url,
+    })
+    // .then((response) => {
+    //   console.log('Axios request successful:', response)
+    //   return response
+    // })
+    // .catch((error) => {
+    //   console.log('Axios request failed:', error)
+    //   throw error
+    // })
   }
 
-  return { data, setData, isPending, error, initialLoad }
+  return { data, setData, isPending, error, initialLoad, request }
 }
 
 export default useAxios

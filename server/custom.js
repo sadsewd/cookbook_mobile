@@ -12,7 +12,6 @@ const authenticateSession = (req, res, next) => {
     if (err) {
       res.status(403).json({ message: 'Invalid token' })
     } else {
-      console.log('user', user)
       req.user = user
       next()
     }
