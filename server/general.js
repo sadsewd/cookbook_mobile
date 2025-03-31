@@ -94,15 +94,12 @@ router.post('/multiple', async (req, res) => {
     [table, columns, ...values.flat()],
     (err, result) => {
       if (err) {
-        console.log(err.sql)
         res.status(500).json({ message: err.message })
       } else {
         const insertIds = Array.from(
           { length: result.affectedRows },
           (_, i) => result.insertId + i
         )
-
-        console.log(result)
 
         res.json({
           message: 'Added entries',
@@ -154,50 +151,6 @@ router.patch('/single/:id', async (req, res) => {
   )
 })
 
-// router.patch('/multiple', async (req, res) => {
-//   const table = req.baseUrl.slice(1)
-//   const column = table + '_id'
-//   // const ids = req.body.ids
-//   const updates = req.body
-//   console.log(req.body)
-
-//   // if (
-//   //   !Array.isArray(ids) ||
-//   //   ids.length === 0 ||
-//   // ) {
-//   //   return res
-//   //     .status(400)
-//   //     .json({ message: 'Invalid IDs array or updates object' })
-//   // }
-
-//   const columns = Object.keys(updates[0]).filter((col) => col != column)
-//   const columnSetters = columns.map(() => '?? = ?').join(', ')
-
-//   const values = updates.map((el) =>
-//     Object.values(el).map((value) =>
-//       !isNumeric(value) && moment(value, moment.ISO_8601, true).isValid()
-//         ? moment(value).format('YYYY-MM-DD HH:mm:ss')
-//         : value && (value.constructor === Array || typeof value === 'object')
-//         ? JSON.stringify(value)
-//         : value
-//     )
-//   )
-//   console.log(values)
-
-//   db.query(
-//     `UPDATE ?? SET ${columnSetters} WHERE ?? IN (?)`,
-//     [table, ...columns, ...values, column],
-//     (err) => {
-//       if (err) {
-//         console.log(err.sql)
-//         res.status(500).json({ message: err.message })
-//       } else {
-//         res.json({ message: `Updated entries: ${ids.join(', ')}` })
-//       }
-//     }
-//   )
-// })
-
 router.patch('/multiple', async (req, res) => {
   const table = req.baseUrl.slice(1)
   const column = table + '_id'
@@ -245,10 +198,8 @@ router.patch('/multiple', async (req, res) => {
     ({ query, values }) =>
       new Promise((resolve, reject) => {
         db.query(query, values, (err) => {
-          if (err) {
-            console.error('Error executing query:', err.sql)
-            reject(err)
-          } else resolve()
+          if (err) reject(err)
+          else resolve()
         })
       })
   )
@@ -276,8 +227,6 @@ router.delete('/multiple', authenticateSession, async (req, res) => {
   const table = req.baseUrl.slice(1)
   const column = table + '_id'
   const ids = req.body
-
-  console.log(req.body)
 
   if (!Array.isArray(ids) || ids.length === 0) {
     return res

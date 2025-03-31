@@ -50,7 +50,7 @@ const profile = () => {
       if (validEmail.test(email)) {
         try {
           const res = await AsyncStorage.getItem('user').then((res) =>
-            axios.patch(`/users/${JSON.parse(res).id}`, { email: email })
+            axios.patch(`/users/single/${JSON.parse(res).id}`, { email: email })
           )
           if (res.status == 200) {
             setError({
@@ -89,7 +89,7 @@ const profile = () => {
         if (validPassword.test(password)) {
           try {
             const res = await AsyncStorage.getItem('user').then((res) =>
-              axios.patch(`/users/${JSON.parse(res).id}`, {
+              axios.patch(`/users/single/${JSON.parse(res).id}`, {
                 password: password,
               })
             )
@@ -167,9 +167,7 @@ const profile = () => {
 
   const handleLogOut = async () => {
     await AsyncStorage.removeItem('user').finally((res) =>
-      axios
-        .post(`/auth/logout`)
-        .finally((res) => console.log(res), router.replace('login'))
+      axios.post(`/auth/logout`).finally(() => router.replace('login'))
     )
   }
 

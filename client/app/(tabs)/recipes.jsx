@@ -11,6 +11,7 @@ import Card from '../../components/Card'
 import { useTheme } from '@react-navigation/core'
 import { useEffect, useState } from 'react'
 import useAxios from '../../hooks/useAxios'
+import { router } from 'expo-router'
 
 const recipes = () => {
   const { colors, sizing } = useTheme()
@@ -108,7 +109,7 @@ const recipes = () => {
         <View style={styles.mainBox}>
           <View style={styles.optionBox}>
             <Pressable
-              onPress={() => {}}
+              onPress={() => router.push(`/singleRecipe/0/create`)}
               style={({ pressed }) => [
                 styles.addBtn,
                 pressed && styles.pressedAddBtn,

@@ -4,7 +4,15 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 
 const initVal = { description: '' }
 
-const Step = ({ item, disabled, onDescChange, onDelete, newItem, onAdd }) => {
+const Step = ({
+  item,
+  disabled,
+  onDescChange,
+  onDelete,
+  newItem,
+  onAdd,
+  sequence,
+}) => {
   const { colors, sizing } = useTheme()
   const [values, setValues] = useState(initVal)
 
@@ -59,9 +67,7 @@ const Step = ({ item, disabled, onDescChange, onDelete, newItem, onAdd }) => {
   return (
     <View style={styles.container}>
       {!newItem && (
-        <Text style={[styles.text, styles.textAmount]}>
-          {item?.sequence + '.'}
-        </Text>
+        <Text style={[styles.text, styles.textAmount]}>{sequence + '.'}</Text>
       )}
 
       {disabled ? (

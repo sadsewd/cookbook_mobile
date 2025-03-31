@@ -101,4 +101,20 @@ router.get('/recipe/:id', authenticateSession, async (req, res) => {
   }
 })
 
+router.post('/postRecipe', authenticateSession, async (req, res) => {
+  const userId = req.user.id
+
+  db.query(
+    `INSERT INTO recipes (users_id, name) VALUES (?, ?)`,
+    [userId, req.body.name],
+    (err, result) => {
+      if (err) {
+        res.status(500).json({ message: err.message })
+      } else {
+        res.json({ message: 'Added entry', id: result.insertId })
+      }
+    }
+  )
+})
+
 export default router

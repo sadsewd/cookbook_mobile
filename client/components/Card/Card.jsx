@@ -38,14 +38,14 @@ const Card = ({ item }) => {
       <Text style={styles.title}>{item?.name}</Text>
 
       <Pressable
-        onPress={() => router.push(`/singleRecipe/${item?.recipes_id}/false`)}
+        onPress={() => router.push(`/singleRecipe/${item?.recipes_id}/view`)}
         style={({ pressed }) => [styles.btn, pressed && styles.pressedBtn]}
       >
         <Text style={styles.btnText}>View recipe</Text>
       </Pressable>
 
       <Pressable
-        onPress={() => router.push(`/singleRecipe/${item?.recipes_id}/true`)}
+        onPress={() => router.push(`/singleRecipe/${item?.recipes_id}/edit`)}
         style={({ pressed }) => [styles.btn, pressed && styles.pressedBtn]}
       >
         <Text style={styles.btnText}>Edit recipe</Text>

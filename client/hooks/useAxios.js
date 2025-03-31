@@ -48,14 +48,6 @@ const useAxios = ({ method = 'get', url, body, params, ignoreUE = false }) => {
       passedParams: settings?.params,
       passedUrl: settings?.url,
     })
-    // .then((response) => {
-    //   console.log('Axios request successful:', response)
-    //   return response
-    // })
-    // .catch((error) => {
-    //   console.log('Axios request failed:', error)
-    //   throw error
-    // })
   }
 
   return { data, setData, isPending, error, initialLoad, request }

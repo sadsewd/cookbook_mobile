@@ -8,28 +8,37 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import { useTheme } from '@react-navigation/core'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import useAxios from '../../../hooks/useAxios'
-import { Redirect, useLocalSearchParams } from 'expo-router'
-import isUser from '../../../hooks/isUser'
+import { router, useLocalSearchParams } from 'expo-router'
 import Ingredient from '../../../components/Ingredient'
 import Step from '../../../components/Step'
+import axios from 'axios'
 
 const singleRecipe = () => {
-  // if (!isUser()) return <Redirect href='/login' />
   const { id, mode } = useLocalSearchParams()
   const { colors } = useTheme()
-  const [editMode, setEditMode] = useState(mode == 'true')
-  const [values, setValues] = useState()
+  const [editMode, setEditMode] = useState(['edit', 'create'].includes(mode))
+  const [values, setValues] = useState({
+    recipe: {},
+    ingredients: [],
+    steps: [],
+  })
   const [valuesBackup, setValuesBackup] = useState()
 
   const { data, setData, isPending } = useAxios({
     url: 'custom/recipe/' + id,
+    ignoreUE: id == '0',
   })
 
   const { isPending: isPendingRecipePatch, request: patchRecipe } = useAxios({
     method: 'patch',
     url: 'recipes/single/' + id,
+    ignoreUE: true,
+  })
+  const { isPending: isPendingRecipePost, request: postRecipe } = useAxios({
+    method: 'post',
+    url: 'custom/postRecipe',
     ignoreUE: true,
   })
 
@@ -157,7 +166,7 @@ const singleRecipe = () => {
 
   const updateRecipe = () => {
     if (values?.recipe.name != valuesBackup?.recipe.name) {
-      patchRecipe({ body: { name: values.recipe.name } }).then((err) => {
+      patchRecipe({ body: { name: values.recipe.name } }).catch((err) => {
         console.log(err)
       })
     }
@@ -165,7 +174,6 @@ const singleRecipe = () => {
 
   const updateIngredients = () => {
     if (values?.ingredients == valuesBackup?.ingredients) {
-      console.log('No changes made to ingredients.')
       return
     }
 
@@ -180,13 +188,31 @@ const singleRecipe = () => {
       .filter((el) => !delIng.includes(el))
       .filter((el) => !valuesBackup.ingredients.includes(el))
 
-    newIng = newIng.map((el) => ({ ...el, recipes_id: id }))
+    const finalNewIng = newIng.map((el) => ({ ...el, recipes_id: id }))
     delIng = delIng.map((el) => el.ingredients_id)
 
-    if (newIng.length > 0)
-      postIng({ body: newIng }).catch((err) => {
-        console.log(err)
-      })
+    if (finalNewIng.length > 0)
+      postIng({ body: finalNewIng })
+        .then((response) => {
+          const finalData = {
+            ...values,
+            ingredients: values.ingredients.map((ing) =>
+              newIng.includes(ing)
+                ? {
+                    ...ing,
+                    ingredients_id: response.data.insertIds.shift(),
+                    recipes_id: Number(id),
+                  }
+                : ing
+            ),
+          }
+
+          setValues(finalData)
+          setValuesBackup(finalData)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
 
     if (delIng.length > 0)
       deleteIng({ body: delIng }).catch((err) => {
@@ -201,7 +227,6 @@ const singleRecipe = () => {
 
   const updateSteps = () => {
     if (values?.steps == valuesBackup?.steps) {
-      console.log('No changes made to steps.')
       return
     }
 
@@ -217,31 +242,28 @@ const singleRecipe = () => {
     const finalNewStep = newStep.map((el) => ({ ...el, recipes_id: id }))
     delStep = delStep.map((el) => el.steps_id)
 
-    if (finalNewStep.length > 0) postStep({ body: finalNewStep })
-    // .then((response) => {
-    //   console.log(response.data.insertIds)
+    if (finalNewStep.length > 0)
+      postStep({ body: finalNewStep })
+        .then((response) => {
+          const finalData = {
+            ...values,
+            steps: values.steps.map((step) =>
+              newStep.includes(step)
+                ? {
+                    ...step,
+                    steps_id: response.data.insertIds.shift(),
+                    recipes_id: Number(id),
+                  }
+                : step
+            ),
+          }
 
-    //   setValues({
-    //     ...values,
-    //     steps: [
-    //       ...values.steps.map((step) =>
-    //         step == newStep
-    //           ? {
-    //               ...step,
-    //               steps_id: response.data.insertIds.shift(),
-    //               recipes_id: id,
-    //             }
-    //           : step
-    //       ),
-    //     ],
-    //   })
-    // })
-    // .catch((err) => {
-    //   console.log(err)
-    // })
-    // axios.post('steps/multiple', newStep).then((response) => {
-    //   console.log('awefnafw')
-    // })
+          setValues(finalData)
+          setValuesBackup(finalData)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
 
     if (delStep.length > 0)
       deleteStep({ body: delStep }).catch((err) => {
@@ -256,16 +278,41 @@ const singleRecipe = () => {
 
   const viewOrSave = () => {
     if (editMode) {
+      if (id == '0') {
+        axios
+          .post('custom/postRecipe', { name: values.recipe.name })
+          .then((recipeRes) => {
+            axios
+              .post(
+                'ingredients/multiple',
+                values.ingredients.map((el) => ({
+                  ...el,
+                  recipes_id: recipeRes.data.id,
+                }))
+              )
+              .then((res) => {
+                axios
+                  .post(
+                    'steps/multiple',
+                    values.steps.map((el) => ({
+                      ...el,
+                      recipes_id: recipeRes.data.id,
+                    }))
+                  )
+                  .then((res) => {
+                    router.replace('recipes')
+                  })
+              })
+          })
+
+        return
+      }
       setEditMode(false)
 
       if (JSON.stringify(values) !== JSON.stringify(valuesBackup)) {
         updateRecipe()
         updateIngredients()
         updateSteps()
-
-        setValuesBackup(values)
-      } else {
-        console.log('No changes made.')
       }
     } else {
       setEditMode(true)
@@ -273,13 +320,19 @@ const singleRecipe = () => {
   }
 
   useEffect(() => {
-    console.log(values)
+    console.log('latestVal', values)
   }, [values])
+
+  useEffect(() => {
+    console.log('latestValBack', valuesBackup)
+  }, [valuesBackup])
 
   return (
     <View style={styles.container2}>
-      <ScrollView contentContainerStyle={isPending && styles.scrollView}>
-        {isPending ? (
+      <ScrollView
+        contentContainerStyle={isPending && id != '0' && styles.scrollView}
+      >
+        {isPending && id != '0' ? (
           <ActivityIndicator size='large' color={colors.primary} />
         ) : (
           <View style={styles.container}>
@@ -379,6 +432,7 @@ const singleRecipe = () => {
                       <Step
                         key={i}
                         item={el}
+                        sequence={i + 1}
                         disabled={!editMode}
                         onDescChange={(text) =>
                           setValues({
