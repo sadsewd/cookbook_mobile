@@ -1,8 +1,19 @@
-import { Redirect, Stack } from 'expo-router'
-import isUser from '../../hooks/isUser'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { router, Stack } from 'expo-router'
+import { useEffect } from 'react'
 
 const AuthLayout = () => {
-  if (isUser()) return <Redirect href='/recipes' />
+  useEffect(() => {
+    if (fetchUser()?.id) router.replace('recipes')
+  }, [])
+
+  const fetchUser = async () => {
+    try {
+      return await AsyncStorage.getItem('user')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <Stack>
