@@ -6,6 +6,10 @@
 - Projekta nosaukums: "Cookbook"
 - Projekta apraksts: Projekta mērķis ir izveidot lietotni, kur lietotāji var glabāt savas receptes. Receptes tiek saistītas ar lietotāju izveidoto kontu un informācija tiek glabāta attālināti.
 
+### Brīdinājums
+
+Aplikācijas lietotais API hostēšanas risinājums pēc laika kad netiek lietots var palēnināt vaicajumus līdz pat 50 sekundēm, tas ir, palēnināta ielogošanās, reģistrācija un citas darbības ar datiem (receptes, konta informācija)
+
 ## Kā palaist projektu
 
 ### APK
