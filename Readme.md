@@ -2,10 +2,10 @@
 
 ## Pamatinformācija
 
-Projeka autori: Kārlis Lācītis, Endijs Dārznieks
-Projekta nosaukums: "Cookbook"
-Projekta apraksts: Projekta mērķis ir izveidot lietotni, kur lietotāji var glabāt savas receptes. Receptes tiek saistītas ar lietotāju izveidoto kontu un informācija tiek glabāta attālināti.
-Kā palaist projektu:
+- Projeka autori: Kārlis Lācītis, Endijs Dārznieks
+- Projekta nosaukums: "Cookbook"
+- Projekta apraksts: Projekta mērķis ir izveidot lietotni, kur lietotāji var glabāt savas receptes. Receptes tiek saistītas ar lietotāju izveidoto kontu un informācija tiek glabāta attālināti.
+- Kā palaist projektu:
 
 ## Kā palaist projektu
 
