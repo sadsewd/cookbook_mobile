@@ -64,7 +64,7 @@ REST API serveris tiek hostēts vietnē Render.com
 
 ## Idejas nākotnei
 
--[] Konta dzēšana
--[] Kontu epasta verifikācija
--[] MFA ieviešana
--[] Uzlabot recepšu vizualizāciju (piemēram kopējais nepieciešamais laiks receptes sagatavei, laiks katram solim)
+- Konta dzēšana
+- Kontu epasta verifikācija
+- MFA ieviešana
+- Uzlabot recepšu vizualizāciju (piemēram kopējais nepieciešamais laiks receptes sagatavei, laiks katram solim)
