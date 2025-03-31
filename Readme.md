@@ -51,6 +51,40 @@ Viena datubāze un serveris kurš apstrādā vaicājumus datubāzei, visi lietot
 Datubāze tiek hostēta Google Cloud pakalpojumā
 REST API serveris tiek hostēts vietnē Render.com
 
+## Attēli
+
+![Sākumlapa](/assets/main.PNG)
+
+Aplikācijas sākumlapa, opcijas atvērt autorizācijas un reģistrācijas lapas.
+
+![Reģistrācijas lapa](/assets/register.PNG)
+
+Reģistrēšanās lapa, iespēja izveidot jaunu lietotāja kontu.
+
+![Autorizācijas lapa](/assets/login.PNG)
+
+Autorizēšanās lapa, ievadot tikai pareizus ielogošanās datus varēs tikt sistēmā.
+
+![Recepšu saraksta lapa](/assets/recipeList.PNG)
+
+Recepšu saraksts, iespējams atvērt recepti vai rediģēt to, opcija veidot jaunu recepti, kā arī filtrēt receptes pēc nosaukuma.
+
+![Profila lapa](/assets/profile.PNG)
+
+Profila/iestatījumu lapa, var nomainīt e-pastu, paroli, aplikācijas motīvu un iespējams izlogoties.
+
+![Atvērtas receptes lapa](/assets/viewRecipe.PNG)
+
+Vienas receptes lapa, opcija veikt receptes rediģēšanu.
+
+![Receptes rediģēšanas lapa](/assets/editRecipe.PNG)
+
+Receptes rediģēšanas lapa, var pārmainīt recpetes nosaukumu, sastāvdaļu un soļu sarakstus, veicot to rediģēšanu, pievienošanu un dzēšanu.
+
+![Receptes pievienošanas lapa](/assets/addRecipe.PNG)
+
+Receptes pievienošanas lapa, pieejamas visas tās pašas darbības, kuras ir rediģēšanas lapai.
+
 ## Idejas nākotnei
 
 - Konta dzēšana
