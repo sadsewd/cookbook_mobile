@@ -41,7 +41,7 @@ const recipes = () => {
     heading: {
       textAlign: 'center',
       fontSize: sizing.heading,
-      color: colors.inverted,
+      color: colors.funnyHeading,
       fontWeight: 'bold',
       padding: 32,
     },

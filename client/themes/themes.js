@@ -22,8 +22,9 @@ export const Dark = {
     error: 'rgb(230, 57, 70)',
     background: 'rgb(18, 18, 18)',
     text: 'rgb(255, 255, 255)',
-    textInvert: 'rgb(230, 230, 230)',
+    textInvert: 'rgb(255, 255, 255)',
     textStaticBlack: 'rgb(36, 36, 36)',
+    funnyHeading: 'rgb(255, 255, 255)',
   },
   ...Sizing,
 }
@@ -41,6 +42,7 @@ export const Light = {
     text: 'rgb(255, 255, 255)',
     textInvert: 'rgb(36, 36, 36)',
     textStaticBlack: 'rgb(36, 36, 36)',
+    funnyHeading: 'rgb(36, 36, 36)',
   },
   ...Sizing,
 }
