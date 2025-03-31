@@ -10,17 +10,15 @@
 
 ### APK
 
-1. No builds direktorijas lejupielādēt .APK failu un installēt lietotni
+APK build neizdevās
 
 ### Expo go
 
 1. Installēt Node.js 22
 2. Klonēt projektu
 3. Veikt komandas `npm i` izpildi direktorijā /client
-4. Direktorijā /client palaist komandu `npm start`
+4. Direktorijā /client palaist komandu `npm start` vai `npx expo start --tunnel`
 5. Sekot komandlīnijas izvaddatiem lai savienotos ar Expo Go
-
-## Ekrānšāviņi
 
 ## Lietotās bibliotēkas
 
