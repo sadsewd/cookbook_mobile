@@ -1,13 +1,3 @@
-The Readme.md file should include at least this much information:
-• Your name
-• Project title
-• App description
-• Instructions on how to set up and run the project
-• Screenshots with a short explanation
-• List of libraries used
-• Architecture diagram with explanation
-• Ideas for future updates
-
 # "Cookbook"
 
 ## Pamatinformācija
